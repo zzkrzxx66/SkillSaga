@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">SkillSaga</string>
+    <string name="battle_title">技能传说 - 战斗</string>
+    <string name="select_characters">选择角色</string>
+    <string name="start_battle">开始战斗</string>
+    <string name="action_points">行动点</string>
+    <string name="health">生命值</string>
+    <string name="attack">攻击力</string>
+    <string name="speed">速度</string>
+    <string name="shield">护盾</string>
+    <string name="momentum">势</string>
+    <string name="intent">意</string>
+    <string name="sorrow_rock">悲岩</string>
+    <string name="skill_1">技能 I</string>
+    <string name="skill_2">技能 II</string>
+    <string name="skill_3">技能 III</string>
+    <string name="derived_skill">衍生技</string>
+    <string name="passive">被动</string>
+    <string name="turn_start">回合开始</string>
+    <string name="turn_end">回合结束</string>
+    <string name="victory">胜利！</string>
+    <string name="defeat">失败！</string>
+    <string name="next_turn">下一回合</string>
+    <string name="back">返回</string>
+</resources>
