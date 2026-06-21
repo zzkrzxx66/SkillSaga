@@ -4,16 +4,16 @@ data class Character(
     val id: String,
     val name: String,
     val title: String,
-    val hp: Int,
+    var hp: Int,
     val maxHp: Int,
     val atk: Int,
     val speed: Int,
-    val ap: Int, // Action Points
+    var ap: Int, // Action Points
     val maxAp: Int,
-    val shield: Int,
-    val momentum: Int, // 势
-    val intent: Int, // 意
-    val sorrowRock: Int, // 悲岩
+    var shield: Int,
+    var momentum: Int, // 势
+    var intent: Int, // 意
+    var sorrowRock: Int, // 悲岩
     val statuses: MutableList<Status> = mutableListOf(),
     val skills: List<Skill> = emptyList(),
     val isPlayer: Boolean = true
@@ -22,8 +22,8 @@ data class Character(
 data class Status(
     val id: String,
     val name: String,
-    val stacks: Int,
-    val duration: Int? = null, // null = permanent
+    var stacks: Int,
+    var duration: Int? = null, // null = permanent
     val description: String = ""
 )
 

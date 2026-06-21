@@ -133,7 +133,7 @@ class GameEngine {
                 "sea_tide" -> {
                     // 海潮：势不会减少，每回合结束-1
                     if (status.duration != null) {
-                        status.stacks - 1
+                        status.stacks -= 1
                         if (status.stacks <= 0) {
                             statusesToRemove.add(status)
                         }
@@ -142,7 +142,7 @@ class GameEngine {
                 "crit_up", "crit_dmg_up" -> {
                     // Duration-based statuses
                     if (status.duration != null) {
-                        status.stacks - 1
+                        status.stacks -= 1
                         if (status.stacks <= 0) {
                             statusesToRemove.add(status)
                         }
@@ -182,7 +182,7 @@ class GameEngine {
             if (counterStatus != null && counterStatus.stacks > 0) {
                 val counterDamage = (target.atk * 0.8).toInt()
                 enemy.hp -= counterDamage
-                counterStatus.stacks - 1
+                counterStatus.stacks -= 1
                 gameLog.add("${target.name} 反击！对 ${enemy.name} 造成 $counterDamage 伤害")
             }
         }
