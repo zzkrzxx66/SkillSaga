@@ -259,7 +259,7 @@ class GameEngine {
                 critRate += 50
             }
             if (Random.nextInt(100) < critRate) {
-                baseDmg = (baseDmg * attacker.effectiveCritDmg / 100).roundToInt()
+                baseDmg = (baseDmg * attacker.effectiveCritDmg / 100.0).roundToInt()
                 log("  💥 暴击！", LogType.DAMAGE)
             }
         }
@@ -270,7 +270,7 @@ class GameEngine {
         // 护盾减少（考虑穿甲）
         // 穿甲比例无视护盾，直接扣血
         if (target.shield > 0 && armorPen > 0) {
-            val directDmg = (baseDmg * armorPen / 100).roundToInt()
+            val directDmg = (baseDmg * armorPen / 100.0).roundToInt()
             val shieldDmg = baseDmg - directDmg
             // shieldDmg部分被护盾吸收，directDmg直接扣血
             // 返回总伤害，在applyDamage中处理
