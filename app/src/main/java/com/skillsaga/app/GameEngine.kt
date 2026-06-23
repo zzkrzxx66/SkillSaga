@@ -243,7 +243,7 @@ class GameEngine {
 
     // ── 伤害计算 ──
 
-    private fun calcDamage(attacker: GameCharacter, target: GameCharacter, multiplier: Float, canCrit: Boolean = true, ignorePressure: Boolean = false): Int {
+    private fun calcDamage(attacker: GameCharacter, target: GameCharacter, multiplier: Double, canCrit: Boolean = true, ignorePressure: Boolean = false): Int {
         var baseDmg = (attacker.effectiveAtk * multiplier).roundToInt()
 
         // 势压额外伤害
@@ -394,14 +394,14 @@ class GameEngine {
             // ── 大海 ──
             "dahai_zhanchao" -> {
                 val t = target ?: enemyTeam.first { it.isAlive }
-                val dmg = calcDamage(actor, t, 1.0f)
+                val dmg = calcDamage(actor, t, 1.0)
                 applyDamage(t, dmg)
                 processOnHitPassives(t, actor, dmg)
                 log("  → ${t.name} 受到${dmg}伤害", LogType.DAMAGE)
             }
             "dahai_dielang" -> {
                 val t = target ?: enemyTeam.first { it.isAlive }
-                val dmg = calcDamage(actor, t, 0.5f)
+                val dmg = calcDamage(actor, t, 0.5)
                 applyDamage(t, dmg)
                 processOnHitPassives(t, actor, dmg)
                 val useCount = actor.skillUseCount[skill.id] ?: 1
@@ -426,7 +426,7 @@ class GameEngine {
             }
             "wei_huanyun" -> {
                 val t = target ?: enemyTeam.first { it.isAlive }
-                val dmg = calcDamage(actor, t, 1.0f)
+                val dmg = calcDamage(actor, t, 1.0)
                 // 附魔额外伤害
                 var totalDmg = dmg
                 if (actor.hasEnchant) {
@@ -480,7 +480,7 @@ class GameEngine {
                 // 全体1×0.8×2次
                 repeat(2) { i ->
                     enemies.forEach { e ->
-                        val dmg = calcDamage(actor, e, 0.8f)
+                        val dmg = calcDamage(actor, e, 0.8)
                         applyDamage(e, dmg)
                         processOnHitPassives(e, actor, dmg)
                         log("  → 第${i+1}击 ${e.name} 受到${dmg}伤害", LogType.DAMAGE)
@@ -497,7 +497,7 @@ class GameEngine {
                 if (actor.hasExtremeIntent) {
                     enemies.forEach { e ->
                         if (e.isAlive) {
-                            val dmg = calcDamage(actor, e, 1.0f)
+                            val dmg = calcDamage(actor, e, 1.0)
                             applyDamage(e, dmg)
                             processOnHitPassives(e, actor, dmg)
                             log("  → 极意追击：${e.name} 受到${dmg}伤害", LogType.DAMAGE)
@@ -511,7 +511,7 @@ class GameEngine {
             // ── 岩 ──
             "yan_zhenshan" -> {
                 val t = target ?: enemyTeam.first { it.isAlive }
-                val dmg = calcDamage(actor, t, 0.8f, ignorePressure = true)
+                val dmg = calcDamage(actor, t, 0.8, ignorePressure = true)
                 applyDamage(t, dmg)
                 processOnHitPassives(t, actor, dmg)
                 actor.momentum += 2
@@ -539,7 +539,7 @@ class GameEngine {
             }
             "yan_cengluan" -> {
                 val t = target ?: enemyTeam.first { it.isAlive }
-                val dmg = calcDamage(actor, t, 1.0f)
+                val dmg = calcDamage(actor, t, 1.0)
                 applyDamage(t, dmg)
                 processOnHitPassives(t, actor, dmg)
                 t.momentum -= 5
@@ -549,7 +549,7 @@ class GameEngine {
             "yan_baiyue" -> {
                 val consumedMomentum = actor.momentum
                 actor.momentum = 0
-                val baseDmg = calcDamage(actor, enemyTeam.first { it.isAlive }, 0.5f, ignorePressure = true)
+                val baseDmg = calcDamage(actor, enemyTeam.first { it.isAlive }, 0.5, ignorePressure = true)
                 val momentumBonus = consumedMomentum * 2
                 val shieldDmg = actor.shield
                 val totalDmg = baseDmg + momentumBonus + shieldDmg
@@ -576,14 +576,14 @@ class GameEngine {
             // ── 敌人 ──
             "enemy_normal" -> {
                 val t = target ?: playerTeam.filter { it.isAlive }.random()
-                val dmg = calcDamage(actor, t, 1.0f)
+                val dmg = calcDamage(actor, t, 1.0)
                 applyDamage(t, dmg)
                 processOnHitPassives(t, actor, dmg)
                 log("  → ${t.name} 受到${dmg}伤害", LogType.DAMAGE)
             }
             "enemy_heavy" -> {
                 val t = target ?: playerTeam.filter { it.isAlive }.random()
-                val dmg = calcDamage(actor, t, 1.5f)
+                val dmg = calcDamage(actor, t, 1.5)
                 applyDamage(t, dmg)
                 processOnHitPassives(t, actor, dmg)
                 log("  → 重击！${t.name} 受到${dmg}伤害", LogType.DAMAGE)
