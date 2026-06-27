@@ -80,7 +80,19 @@ object CharacterFactory {
         else -> listOf(createGoblin(), createGoblin(), createGoblin())
     }
 
-    /** 获取角色头像emoji */
+    /** 获取角色头像资源ID */
+    fun getPortraitResId(char: GameCharacter): Int = when (char.id) {
+        "dahai" -> R.drawable.dahai_portrait
+        "wei" -> R.drawable.wei_portrait
+        "yan" -> R.drawable.yan_portrait
+        "goblin" -> R.drawable.goblin
+        "orc" -> R.drawable.orc
+        "dark_mage" -> R.drawable.dark_mage
+        "boss" -> R.drawable.boss
+        else -> R.drawable.dahai_portrait
+    }
+
+    /** 获取角色头像emoji（备用） */
     fun getAvatar(char: GameCharacter): String = when (char.id) {
         "dahai" -> "🌊"
         "wei" -> "🌙"

@@ -19,6 +19,8 @@ import androidx.compose.ui.graphics.*
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.*
 import androidx.compose.ui.unit.*
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import kotlinx.coroutines.delay
 import kotlin.random.Random
 
@@ -132,9 +134,9 @@ fun MenuScreen(onStart: () -> Unit) {
             Row(
                 horizontalArrangement = Arrangement.spacedBy(16.dp)
             ) {
-                CharacterPreviewCard("🌊", "剑王·大海", "DPS", "势能成长", AccentBlue)
-                CharacterPreviewCard("🌙", "隐月·薇", "刺客", "暴击爆发", AccentPurple)
-                CharacterPreviewCard("⛰️", "破军·岩", "坦克", "护盾辅助", Color(0xFF8D6E63))
+                CharacterPreviewCard(R.drawable.dahai_portrait, "剑王·大海", "DPS", "势能成长", AccentBlue)
+                CharacterPreviewCard(R.drawable.wei_portrait, "隐月·薇", "刺客", "暴击爆发", AccentPurple)
+                CharacterPreviewCard(R.drawable.yan_portrait, "破军·岩", "坦克", "护盾辅助", Color(0xFF8D6E63))
             }
             Spacer(Modifier.height(48.dp))
 
@@ -156,7 +158,7 @@ fun MenuScreen(onStart: () -> Unit) {
 }
 
 @Composable
-fun CharacterPreviewCard(emoji: String, name: String, role: String, desc: String, color: Color) {
+fun CharacterPreviewCard(portraitResId: Int, name: String, role: String, desc: String, color: Color) {
     Card(
         modifier = Modifier.size(100.dp, 140.dp),
         colors = CardDefaults.cardColors(containerColor = CardBgLight),
@@ -168,7 +170,14 @@ fun CharacterPreviewCard(emoji: String, name: String, role: String, desc: String
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-            Text(emoji, fontSize = 36.sp)
+            Image(
+                painter = painterResource(portraitResId),
+                contentDescription = name,
+                modifier = Modifier
+                    .size(56.dp)
+                    .clip(RoundedCornerShape(8.dp)),
+                contentScale = ContentScale.Crop
+            )
             Spacer(Modifier.height(4.dp))
             Text(name, fontSize = 12.sp, fontWeight = FontWeight.Bold, color = color, textAlign = TextAlign.Center)
             Text(role, fontSize = 10.sp, color = TextSecondary)
@@ -224,7 +233,15 @@ fun BattleScreen(
     val activeChar = battleState.playerTeam.find { it.id == battleState.activeCharacterId }
     val isPlayerTurn = battleState.isPlayerTurn && !battleState.isGameOver && !processing
 
-    Box(modifier = Modifier.fillMaxSize().background(DarkBg)) {
+    Box(modifier = Modifier.fillMaxSize()) {
+        // 战斗背景图
+        Image(
+            painter = painterResource(R.drawable.battle_bg),
+            contentDescription = null,
+            modifier = Modifier.fillMaxSize(),
+            contentScale = ContentScale.Crop,
+            alpha = 0.35f
+        )
         Column(modifier = Modifier.fillMaxSize().padding(horizontal = 12.dp, vertical = 8.dp)) {
 
             // ── 顶栏：回合信息 ──
@@ -442,7 +459,6 @@ fun BattleCharacterCard(
     onTargetClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val avatar = CharacterFactory.getAvatar(char)
     val color = Color(CharacterFactory.getColor(char))
 
     val cardModifier = modifier
@@ -463,10 +479,14 @@ fun BattleCharacterCard(
         Column(modifier = Modifier.padding(6.dp)) {
             // 头像+名字
             Row(verticalAlignment = Alignment.CenterVertically) {
-                Text(
-                    avatar,
-                    fontSize = 20.sp,
-                    modifier = Modifier.alpha(if (char.isAlive) 1f else 0.3f)
+                Image(
+                    painter = painterResource(CharacterFactory.getPortraitResId(char)),
+                    contentDescription = char.name,
+                    modifier = Modifier
+                        .size(36.dp)
+                        .clip(RoundedCornerShape(6.dp))
+                        .alpha(if (char.isAlive) 1f else 0.3f),
+                    contentScale = ContentScale.Crop
                 )
                 Spacer(Modifier.width(4.dp))
                 Column(modifier = Modifier.weight(1f)) {
@@ -613,7 +633,14 @@ fun PlayerActionPanel(
                 .padding(8.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Text(CharacterFactory.getAvatar(character), fontSize = 24.sp)
+            Image(
+                painter = painterResource(CharacterFactory.getPortraitResId(character)),
+                contentDescription = character.name,
+                modifier = Modifier
+                    .size(40.dp)
+                    .clip(RoundedCornerShape(6.dp)),
+                contentScale = ContentScale.Crop
+            )
             Spacer(Modifier.width(8.dp))
             Column {
                 Text("${character.title}·${character.name}", fontSize = 14.sp, fontWeight = FontWeight.Bold, color = Color(CharacterFactory.getColor(character)))
